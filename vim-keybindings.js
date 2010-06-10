@@ -3,6 +3,13 @@ var keycombo = '';
 window.document.addEventListener("keydown", function(e) {
   var t = {}, c = String.fromCharCode(e.keyCode).toLowerCase(), SCROLL_STEP = 35;
 
+  if(window.document.activeElement !== window.document.body) {
+    if (e.keyCode == 27) {
+      window.document.activeElement.blur();
+    }
+    return;
+  }
+
   t.scroll = function(x, y) {
     window.scrollBy(x, y);
   };
