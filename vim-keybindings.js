@@ -21,6 +21,10 @@ window.document.addEventListener("keydown", function(e) {
     return window.innerHeight / 2;
   };
 
+  t.fullWindowHeight = function() {
+    return window.innerHeight;
+  };
+
   t.screenHeight = function() {
     return document.body.offsetHeight;
   };
@@ -53,9 +57,19 @@ window.document.addEventListener("keydown", function(e) {
       t.scroll(0, t.halfWindowHeight());
     }
   break;
+  case 'f':
+    if(e.ctrlKey) {
+      t.scroll(0, t.fullWindowHeight());
+    }
+  break;
   case 'u':
     if(e.ctrlKey) {
       t.scroll(0, -t.halfWindowHeight());
+    }
+  break;
+  case 'b':
+    if(e.ctrlKey) {
+      t.scroll(0, -t.fullWindowHeight());
     }
   break;
   case 'G':

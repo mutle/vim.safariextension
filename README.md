@@ -5,4 +5,4 @@ Currently Supported:
 
 * gg, G
 * h, j, k, l
-* ^D ^U
+* ^D, ^U, ^F, ^B
