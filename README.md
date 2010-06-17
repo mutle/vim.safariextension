@@ -6,3 +6,9 @@ Currently Supported:
 * gg, G
 * h, j, k, l
 * ^D, ^U, ^F, ^B
+
+Contributors
+============
+
+Mutwin Kraus
+Jason Green
