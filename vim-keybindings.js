@@ -23,6 +23,11 @@ window.document.addEventListener("keydown", function(e) {
   t.halfWindowHeight = function() {
     return window.innerHeight / 2;
   };
+  
+  t.fullWindowHeight = function() {
+    return window.innerHeight;
+  };
+  
 
   t.screenHeight = function() {
     return document.body.offsetHeight;
@@ -40,6 +45,25 @@ window.document.addEventListener("keydown", function(e) {
 		return true;
 	  }
 	}
+  }
+
+  t.functionkeys = function(keys) {
+	  if ((keys.alt != '1' && e.altKey) || (keys.alt == '1' && !e.altKey)) {
+		  return false;
+	  }
+	  if ((keys.meta != '1' && e.metaKey) || (keys.meta == '1' && !e.metaKey)) {
+		  return false;
+	  }
+	  if ((keys.ctrl != '1' && e.ctrlKey) || (keys.ctrl == '1' && !e.ctrlKey)) {
+		  return false;
+	  }
+	  if ((keys.altgr != '1' && e.altGraphKey) || (keys.altgr == '1' && !e.altGraphKey)) {
+		  return false;
+	  }
+	  if ((keys.shift != '1' && e.shiftKey) || (keys.shift == '1' && !e.shiftKey)) {
+		  return false;
+	  }
+	  return true;
   }
 
   if(e.shiftKey) c = c.toUpperCase();
@@ -62,7 +86,7 @@ window.document.addEventListener("keydown", function(e) {
     t.scroll(SCROLL_STEP, 0);
   break;
   case 'd':
-    if(e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && !e.altGraphKey) {
+	if (t.functionkeys({'ctrl': '1'})) {
       t.scroll(0, t.halfWindowHeight());
     } else if (t.doubleTap('d')) {
 		if (t.lastActiveElement != undefined) {
@@ -71,18 +95,18 @@ window.document.addEventListener("keydown", function(e) {
 	}
   break;
   case 'f':
-    if(e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && !e.altGraphKey) {
+    if(t.functionkeys({'ctrl': '1'})) { 
       t.scroll(0, t.fullWindowHeight());
     }
   break;
   
   case 'u':
-    if(e.ctrlKey) {
+    if(t.functionkeys({'ctrl': '1'})) {
       t.scroll(0, -t.halfWindowHeight());
     }
   break;
   case 'b':
-    if(e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && !e.altGraphKey) {
+	if(t.functionkeys({'ctrl': '1'})) {
       t.scroll(0, -t.fullWindowHeight());
     }
   break;
