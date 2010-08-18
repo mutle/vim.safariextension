@@ -28,7 +28,6 @@ window.document.addEventListener("keydown", function(e) {
     return window.innerHeight;
   };
   
-
   t.screenHeight = function() {
     return document.body.offsetHeight;
   };
