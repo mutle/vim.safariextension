@@ -4,12 +4,34 @@ var t = {};
 
 window.document.addEventListener("keydown", function(e) {
   var c = String.fromCharCode(e.keyCode).toLowerCase(), SCROLL_STEP = 35;
-
+ //console.log(e); 
   if(window.document.activeElement !== window.document.body) {
-    if (e.keyCode == 27) {
-	  t.lastActiveElement = window.document.activeElement;
-      window.document.activeElement.blur();
-    }
+    switch (e.keyCode) {
+		case 27:
+		  if (document.getElementById('vimOverlay').style.display == "block") {
+			  document.getElementById('vimOverlay').style.display = 'none';
+			  document.getElementById('vimOverlayTextinput').value = '';
+		  } else {
+			  t.lastActiveElement = window.document.activeElement;
+		  }
+		  window.document.activeElement.blur();
+		  break;
+		case 8:
+			if (window.document.activeElement.id == "vimOverlayTextinput" && window.document.activeElement.value == '') {
+				window.document.activeElement.blur();
+				document.getElementById('vimOverlay').style.display = "none";
+				e.preventDefault();
+			}
+			break;
+		case 13:
+			if (window.document.activeElement.id == "vimOverlayTextinput") {
+				t.inputCommand(window.document.activeElement.value);
+				window.document.activeElement.value = '';
+				window.document.activeElement.blur();
+				document.getElementById('vimOverlay').style.display = "none";
+			}
+			break;
+	}
     return;
   }
 
@@ -65,8 +87,22 @@ window.document.addEventListener("keydown", function(e) {
 	  return true;
   }
 
-  if(e.shiftKey) c = c.toUpperCase();
+  switch (e.keyIdentifier) {
+	  case "U+003A":
+		  document.getElementById('vimOverlay').style.display = "block";
+		  document.getElementById('vimOverlayTextinput').focus();
+		  e.preventDefault();
+		  break;
+	  case "U+0008":
+		  if (document.getElementById('vimOverlay').style.display == "block" && document.getElementById('vimOverlayTextinput').value == '') {
+			  document.getElementById('vimOverlayTextinput').blur();
+			  document.getElementById('vimOverlay').style.display = "none";
+		  }
+		  break;
+  }
 
+  if(e.shiftKey) c = c.toUpperCase();
+  
   switch(c) {
   case 'g':
     if(t.doubleTap('g'))
@@ -117,7 +153,32 @@ window.document.addEventListener("keydown", function(e) {
 		t.lastActiveElement.focus();
 		e.preventDefault();
 	}
-	break;
+  break;
 }
 });
 
+t.inputCommand = function(command) {
+	if (command == '') return;
+
+	param = command.split(" ");
+
+	switch (param[0]) {
+		case 'tabe':
+		case 'tabedit':
+		case 'e':
+			if (param[1] == "" || param[1] == undefined) {
+				alert('Usage: command "e" opens a url specified as first parameter');
+			} else {
+				var url = param[1]
+				if (url.substr(0,5) != "http:") {
+					url = "http://" + url;
+				}
+				if (param[0] == 'tabe' || param[0] == 'tabedit') {
+					safari.application.browserWindow.openTab(url);
+				} else {
+					location.href = url;
+				}
+			}
+		break;
+	}
+}

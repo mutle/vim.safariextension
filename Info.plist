@@ -20,6 +20,10 @@
 	<dict>
 		<key>Scripts</key>
 		<dict>
+			<key>End</key>
+			<array>
+				<string>overlay.js</string>
+			</array>
 			<key>Start</key>
 			<array>
 				<string>vim-keybindings.js</string>
