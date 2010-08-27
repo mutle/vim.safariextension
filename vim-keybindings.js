@@ -158,6 +158,8 @@ window.document.addEventListener("keydown", function(e) {
 });
 
 t.inputCommand = function(command) {
+	const myGlobal = safari.extension.globalPage.contentWindow;
+
 	if (command == '') return;
 
 	param = command.split(" ");
@@ -174,11 +176,14 @@ t.inputCommand = function(command) {
 					url = "http://" + url;
 				}
 				if (param[0] == 'tabe' || param[0] == 'tabedit') {
-					safari.application.browserWindow.openTab(url);
+					window.open(url);
 				} else {
 					location.href = url;
 				}
 			}
 		break;
+		case 'q':
+			myGlobal.closeWindow();
+			break;
 	}
 }
