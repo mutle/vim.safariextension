@@ -158,8 +158,6 @@ window.document.addEventListener("keydown", function(e) {
 });
 
 t.inputCommand = function(command) {
-	const myGlobal = safari.extension.globalPage.contentWindow;
-
 	if (command == '') return;
 
 	param = command.split(" ");
@@ -176,14 +174,25 @@ t.inputCommand = function(command) {
 					url = "http://" + url;
 				}
 				if (param[0] == 'tabe' || param[0] == 'tabedit') {
-					window.open(url);
+					//window.open(url);
+					safari.self.tab.dispatchMessage("openTab",url);
 				} else {
 					location.href = url;
 				}
 			}
 		break;
 		case 'q':
-			myGlobal.closeWindow();
+			safari.self.tab.dispatchMessage("closeWindow");
 			break;
 	}
 }
+
+function getAnswer(theMessageEvent) {
+	switch (theMessageEvent.name) {
+		case "openTab":
+			theMessageEvent.message['newTab'].location.href = theMessageEvent.message['url'];
+			break;
+	}
+}
+safari.self.addEventListener("message", getAnswer, false);
+

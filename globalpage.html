@@ -5,8 +5,31 @@
    <script type="text/javascript">
  
 	function closeWindow() {
-		safari.application.openBrowserWindow().activeTab.close();
+		safari.application.activeBrowserWindow.activeTab.close();
 	}
+
+	function openTab(event) {
+		var newtab = safari.application.activeBrowserWindow.openTab();
+		var url = event.message;
+		//event.target.page.dispatchMessage("openTab", {'newTab': newtab, 'url': url});
+		event.target.page.dispatchMessage("openTab");
+	}
+
+	function respondToMessage(theMessageEvent) {
+		switch (theMessageEvent.name) {
+			case "closeWindow":
+				closeWindow();
+				break;
+
+			case "openTab":
+				openTab(theMessageEvent);
+				break;
+
+		}
+	}
+ 
+    safari.application.addEventListener("message",respondToMessage,false);
+	
    </script>
 </head>
 <body> </body>
