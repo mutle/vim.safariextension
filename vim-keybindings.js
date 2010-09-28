@@ -167,14 +167,18 @@ t.inputCommand = function(command) {
 		case 'tabedit':
 		case 'e':
 			if (param[1] == "" || param[1] == undefined) {
-				alert('Usage: command "e" opens a url specified as first parameter');
+				if (param[0] == 'e') {
+					alert('Usage: command "e" opens a url specified as first parameter');
+				} else {
+					alert('Usage: command "tabedit" or "tabe" for short, opens a url specified as first parameter in a new tab');
+				}
+
 			} else {
 				var url = param[1]
 				if (url.substr(0,5) != "http:") {
 					url = "http://" + url;
 				}
 				if (param[0] == 'tabe' || param[0] == 'tabedit') {
-					//window.open(url);
 					safari.self.tab.dispatchMessage("openTab",url);
 				} else {
 					location.href = url;
@@ -189,10 +193,8 @@ t.inputCommand = function(command) {
 
 function getAnswer(theMessageEvent) {
 	switch (theMessageEvent.name) {
-		case "openTab":
-			theMessageEvent.message['newTab'].location.href = theMessageEvent.message['url'];
-			break;
 	}
 }
 safari.self.addEventListener("message", getAnswer, false);
+
 

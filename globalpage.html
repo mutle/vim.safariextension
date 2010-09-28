@@ -9,10 +9,8 @@
 	}
 
 	function openTab(event) {
-		var newtab = safari.application.activeBrowserWindow.openTab();
 		var url = event.message;
-		//event.target.page.dispatchMessage("openTab", {'newTab': newtab, 'url': url});
-		event.target.page.dispatchMessage("openTab");
+		safari.application.activeBrowserWindow.openTab().url = url;
 	}
 
 	function respondToMessage(theMessageEvent) {
@@ -34,4 +32,5 @@
 </head>
 <body> </body>
 </html>
+
 
