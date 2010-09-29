@@ -166,9 +166,10 @@ t.inputCommand = function(command) {
 		case 'tabe':
 		case 'tabedit':
 		case 'e':
+    case 'edit':
 			if (param[1] == "" || param[1] == undefined) {
-				if (param[0] == 'e') {
-					alert('Usage: command "e" opens a url specified as first parameter');
+				if (param[0] == 'e' || param[0] == 'edit') {
+					alert('Usage: command "edit" or "e" for short, opens the url specified as first parameter in the current tab');
 				} else {
 					alert('Usage: command "tabedit" or "tabe" for short, opens a url specified as first parameter in a new tab');
 				}
