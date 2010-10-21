@@ -1,13 +1,16 @@
 var combokey = '';
 var t = {};
+var timer;
 
 window.document.addEventListener("keydown", function(e) {
   var c = String.fromCharCode(e.keyCode).toLowerCase(), SCROLL_STEP = 35;
-  //console.log(c + " " + combokey);
-  if (combokey == "") {
-    combokey = c;
-    window.setTimeout(function() { combokey = ''; }, 500);
+  if(e.shiftKey) c = c.toUpperCase();
+  if (e.keyCode > 32) {
+    combokey += c;
+    clearTimeout(timer);
+    timer = window.setTimeout(function() { combokey = ''; }, 500);
   }
+  console.log(c + " " + combokey);
 
   if(window.document.activeElement !== window.document.body) {
     switch (e.keyCode) {
@@ -58,18 +61,6 @@ window.document.addEventListener("keydown", function(e) {
     return document.body.offsetHeight;
   };
 
-  t.keycombo = function(key) {
-    console.log(combokey);
-    if (combokey == '') {
-      return false;
-    } else {
-      if (combokey == key) {
-        combokey = '';
-        return true;
-      }
-    }
-  }
-
   t.functionkeys = function(keys) {
 	  if ((keys.alt != '1' && e.altKey) || (keys.alt == '1' && !e.altKey)) {
 		  return false;
@@ -103,71 +94,82 @@ window.document.addEventListener("keydown", function(e) {
 		  break;
   }
 
-  if(e.shiftKey) c = c.toUpperCase();
-  
-  switch(c) {
-  case 'g':
-    if(t.keycombo('g'))
-      t.scrollTo(0, 0);
-  break;
-  case 'h':
-    t.scroll(-SCROLL_STEP, 0);
-  break;
-  case 'j':
-    t.scroll(0, SCROLL_STEP);
-  break;
-  case 'k':
-    t.scroll(0, -SCROLL_STEP);
-  break;
-  case 'l':
-    t.scroll(SCROLL_STEP, 0);
-  break;
-  case 'd':
-	if (t.functionkeys({'ctrl': '1'})) {
-      t.scroll(0, t.halfWindowHeight());
-    //} else if (t.keycombo('d')) {
-		//if (t.lastActiveElement != undefined) {
-		//	t.lastActiveElement.value = '';
-		//}
-	}
-  break;
-  case 'f':
-    if(t.functionkeys({'ctrl': '1'})) { 
-      t.scroll(0, t.fullWindowHeight());
-    }
-  break;
-  
-  case 'u':
-    if(t.functionkeys({'ctrl': '1'})) {
-      t.scroll(0, -t.halfWindowHeight());
-    }
-  break;
-  case 'b':
-	if(t.functionkeys({'ctrl': '1'})) {
-      t.scroll(0, -t.fullWindowHeight());
-    }
-  break;
-  case 'G':
-    t.scrollTo(0, t.screenHeight());
-  break;
-  case 'i':
-    if (t.lastActiveElement != undefined) {
-      t.lastActiveElement.focus();
-      e.preventDefault();
-	  }
-    break;
-  case 'T':
-   if (t.keycombo('g')) {
-     safari.self.tab.dispatchMessage("prevTab","");
-   }
-   break;
-  case 't':
-    if (t.keycombo('g')) {
-      safari.self.tab.dispatchMessage("nextTab","");
-    }
-    break;
-}
+  t.keyCommand(combokey, e);
 });
+
+t.keyCommand = function(c, e) {
+  var reset_combo = true;
+
+  switch(c) {
+    case 'gg':
+      t.scrollTo(0, 0);
+    break;
+    case 'h':
+      t.scroll(-SCROLL_STEP, 0);
+    break;
+    case 'j':
+      t.scroll(0, SCROLL_STEP);
+    break;
+    case 'k':
+      t.scroll(0, -SCROLL_STEP);
+    break;
+    case 'l':
+      t.scroll(SCROLL_STEP, 0);
+    break;
+    case 'd':
+      if (t.functionkeys({'ctrl': '1'})) {
+        t.scroll(0, t.halfWindowHeight());
+      } else { 
+        reset_combo = false;
+      }
+    break;
+    case 'dd':
+      if (t.lastActiveElement != undefined) {
+        t.lastActiveElement.value = '';
+      }
+    break;
+    case 'f':
+      if(t.functionkeys({'ctrl': '1'})) { 
+        t.scroll(0, t.fullWindowHeight());
+      }
+    break;
+    
+    case 'u':
+      if(t.functionkeys({'ctrl': '1'})) {
+        t.scroll(0, -t.halfWindowHeight());
+      }
+    break;
+    case 'b':
+    if(t.functionkeys({'ctrl': '1'})) {
+        t.scroll(0, -t.fullWindowHeight());
+      }
+    break;
+    case 'G':
+      t.scrollTo(0, t.screenHeight());
+    break;
+    case 'i':
+      if (t.lastActiveElement != undefined) {
+        t.lastActiveElement.focus();
+        e.preventDefault();
+      }
+      break;
+    case 'gT':
+      safari.self.tab.dispatchMessage("prevTab","");
+      break;
+    case 'gt':
+      safari.self.tab.dispatchMessage("nextTab","");
+      break;
+
+    default:
+      reset_combo = false;
+    break;
+  }
+
+  if (reset_combo) {
+    combokey = '';
+  }
+
+}  
 
 t.inputCommand = function(command) {
 	if (command == '') return;
