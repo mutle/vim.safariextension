@@ -23,6 +23,25 @@
 				openTab(theMessageEvent);
 				break;
 
+      case "prevTab":
+        var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+        if (index == 0) {
+          index = safari.application.activeBrowserWindow.tabs.length-1;
+        } else {
+          index--;
+        }
+        safari.application.activeBrowserWindow.tabs[index].activate();
+        break;
+
+      case "nextTab":
+        var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+        if (index == safari.application.activeBrowserWindow.tabs.length-1) {
+          index = 0;
+        } else {
+          index++;
+        }
+        safari.application.activeBrowserWindow.tabs[index].activate();
+        break;
 		}
 	}
  

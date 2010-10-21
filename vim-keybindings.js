@@ -1,10 +1,14 @@
-var keycombo = '';
-var oldkey = '';
+var combokey = '';
 var t = {};
 
 window.document.addEventListener("keydown", function(e) {
   var c = String.fromCharCode(e.keyCode).toLowerCase(), SCROLL_STEP = 35;
- //console.log(e); 
+  //console.log(c + " " + combokey);
+  if (combokey == "") {
+    combokey = c;
+    window.setTimeout(function() { combokey = ''; }, 500);
+  }
+
   if(window.document.activeElement !== window.document.body) {
     switch (e.keyCode) {
 		case 27:
@@ -54,18 +58,16 @@ window.document.addEventListener("keydown", function(e) {
     return document.body.offsetHeight;
   };
 
-  t.doubleTap = function(key) {
-	if (oldkey == '') {
-	  oldkey = key;
-	  window.setTimeout(function() { oldkey = ''; }, 500);
-	  return false;
-	}
-	else {
-	  if (oldkey == key) {
-		oldkey = '';
-		return true;
-	  }
-	}
+  t.keycombo = function(key) {
+    console.log(combokey);
+    if (combokey == '') {
+      return false;
+    } else {
+      if (combokey == key) {
+        combokey = '';
+        return true;
+      }
+    }
   }
 
   t.functionkeys = function(keys) {
@@ -105,7 +107,7 @@ window.document.addEventListener("keydown", function(e) {
   
   switch(c) {
   case 'g':
-    if(t.doubleTap('g'))
+    if(t.keycombo('g'))
       t.scrollTo(0, 0);
   break;
   case 'h':
@@ -123,10 +125,10 @@ window.document.addEventListener("keydown", function(e) {
   case 'd':
 	if (t.functionkeys({'ctrl': '1'})) {
       t.scroll(0, t.halfWindowHeight());
-    } else if (t.doubleTap('d')) {
-		if (t.lastActiveElement != undefined) {
-			t.lastActiveElement.value = '';
-		}
+    //} else if (t.keycombo('d')) {
+		//if (t.lastActiveElement != undefined) {
+		//	t.lastActiveElement.value = '';
+		//}
 	}
   break;
   case 'f':
@@ -149,11 +151,21 @@ window.document.addEventListener("keydown", function(e) {
     t.scrollTo(0, t.screenHeight());
   break;
   case 'i':
-	if (t.lastActiveElement != undefined) {
-		t.lastActiveElement.focus();
-		e.preventDefault();
-	}
-  break;
+    if (t.lastActiveElement != undefined) {
+      t.lastActiveElement.focus();
+      e.preventDefault();
+	  }
+    break;
+  case 'T':
+   if (t.keycombo('g')) {
+     safari.self.tab.dispatchMessage("prevTab","");
+   }
+   break;
+  case 't':
+    if (t.keycombo('g')) {
+      safari.self.tab.dispatchMessage("nextTab","");
+    }
+    break;
 }
 });
 
@@ -176,7 +188,7 @@ t.inputCommand = function(command) {
 
 			} else {
 				var url = param[1]
-				if (url.substr(0,5) != "http:") {
+				if (url.substr(0,5) != "http:" && url.substr(0,6) != "https:") {
 					url = "http://" + url;
 				}
 				if (param[0] == 'tabe' || param[0] == 'tabedit') {
