@@ -1,4 +1,5 @@
 var combokey = '';
+var multiplier = '';
 var t = {};
 var timer;
 
@@ -6,11 +7,14 @@ window.document.addEventListener("keydown", function(e) {
   var c = String.fromCharCode(e.keyCode).toLowerCase(), SCROLL_STEP = 35;
   if(e.shiftKey) c = c.toUpperCase();
   if (e.keyCode > 32) {
-    combokey += c;
+    if (parseInt(c) == c) {
+      multiplier += c;
+    } else {
+      combokey += c;
+    }
     clearTimeout(timer);
-    timer = window.setTimeout(function() { combokey = ''; }, 500);
+    timer = window.setTimeout(function() { combokey = ''; multiplier = ''; }, 500);
   }
-  console.log(c + " " + combokey);
 
   if(window.document.activeElement !== window.document.body) {
     switch (e.keyCode) {
@@ -78,6 +82,11 @@ window.document.addEventListener("keydown", function(e) {
 		  return false;
 	  }
 	  return true;
+  }
+
+  t.resetCombo = function() {
+    combokey = '';
+    multiplier = '';
   }
 
   switch (e.keyIdentifier) {
@@ -157,7 +166,7 @@ t.keyCommand = function(c, e) {
       safari.self.tab.dispatchMessage("prevTab","");
       break;
     case 'gt':
-      safari.self.tab.dispatchMessage("nextTab","");
+      safari.self.tab.dispatchMessage("nextTab",multiplier);
       break;
 
     default:
@@ -166,7 +175,7 @@ t.keyCommand = function(c, e) {
   }
 
   if (reset_combo) {
-    combokey = '';
+    t.resetCombo();
   }
 
 }  

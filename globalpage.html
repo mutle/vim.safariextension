@@ -35,10 +35,16 @@
 
       case "nextTab":
         var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
-        if (index == safari.application.activeBrowserWindow.tabs.length-1) {
-          index = 0;
+        if (theMessageEvent.message != "" && theMessageEvent.message != 0) {
+          if (parseInt(theMessageEvent.message) < safari.application.activeBrowserWindow.tabs.length) {
+            index = parseInt(theMessageEvent.message)-1;
+          }
         } else {
-          index++;
+          if (index == safari.application.activeBrowserWindow.tabs.length-1) {
+            index = 0;
+          } else {
+            index++;
+          }
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
         break;
