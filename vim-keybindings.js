@@ -232,7 +232,7 @@ t.inputCommand = function(command) {
       break;
 
     case 'tablast':
-      safari.self.tab.dispatchMessage("nextTab",0);
+      safari.self.tab.dispatchMessage("nextTab","last");
       break;
       
 	}

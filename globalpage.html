@@ -34,9 +34,10 @@
         break;
 
       case "nextTab":
+      console.log(Number(theMessageEvent.message));
         var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
-        if (theMessageEvent.message !== false) {
-          if (parseInt(theMessageEvent.message) == 0) {
+        if (Number(theMessageEvent.message) != "NaN" && theMessageEvent.message !== false && theMessageEvent.message != 0) {
+          if (theMessageEvent.message == "last") {
             index = parseInt(safari.application.activeBrowserWindow.tabs.length)-1;
           } else if (parseInt(theMessageEvent.message) < safari.application.activeBrowserWindow.tabs.length) {
             index = parseInt(theMessageEvent.message)-1;
