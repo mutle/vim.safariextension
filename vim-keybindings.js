@@ -219,7 +219,7 @@ t.inputCommand = function(command) {
 			break;
     
     case 'tabn':
-      safari.self.tab.dispatchMessage("nextTab",false);
+      safari.self.tab.dispatchMessage("nextTab",0);
       break;
 
     case 'tabp':
