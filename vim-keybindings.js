@@ -1,5 +1,5 @@
 var combokey = '';
-var multiplier = '';
+var multiplier = 0;
 var t = {};
 var timer;
 
@@ -8,12 +8,16 @@ window.document.addEventListener("keydown", function(e) {
   if(e.shiftKey) c = c.toUpperCase();
   if (e.keyCode > 32) {
     if (parseInt(c) == c) {
-      multiplier += c;
+      if (multiplier != 0) {
+        multiplier = (multiplier * 10) + c;
+      } else {
+        multiplier = c;
+      }
     } else {
       combokey += c;
     }
     clearTimeout(timer);
-    timer = window.setTimeout(function() { combokey = ''; multiplier = ''; }, 500);
+    timer = window.setTimeout(function() { combokey = ''; multiplier = 0; }, 500);
   }
 
   if(window.document.activeElement !== window.document.body) {
@@ -86,7 +90,7 @@ window.document.addEventListener("keydown", function(e) {
 
   t.resetCombo = function() {
     combokey = '';
-    multiplier = '';
+    multiplier = 0;
   }
 
   switch (e.keyIdentifier) {
@@ -209,9 +213,28 @@ t.inputCommand = function(command) {
 				}
 			}
 		break;
-		case 'q':
+		
+    case 'q':
 			safari.self.tab.dispatchMessage("closeWindow");
 			break;
+    
+    case 'tabn':
+      safari.self.tab.dispatchMessage("nextTab",false);
+      break;
+
+    case 'tabp':
+      safari.self.tab.dispatchMessage("prevTab","");
+      break;
+
+    case 'tabfirst':
+    case 'tabfir':
+      safari.self.tab.dispatchMessage("nextTab",1);
+      break;
+
+    case 'tablast':
+      safari.self.tab.dispatchMessage("nextTab",0);
+      break;
+      
 	}
 }
 
