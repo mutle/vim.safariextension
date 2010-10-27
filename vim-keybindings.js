@@ -7,12 +7,8 @@ window.document.addEventListener("keydown", function(e) {
   var c = String.fromCharCode(e.keyCode).toLowerCase(), SCROLL_STEP = 35;
   if(e.shiftKey) c = c.toUpperCase();
   if (e.keyCode > 32) {
-    if (parseInt(c) == c) {
-      if (multiplier != 0) {
-        multiplier = (multiplier * 10) + c;
-      } else {
-        multiplier = c;
-      }
+    if (parseInt(c, 10) == c) {
+      multiplier = (multiplier * 10) + c;
     } else {
       combokey += c;
     }
