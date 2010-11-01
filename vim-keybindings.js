@@ -4,7 +4,7 @@ var t = {};
 var timer;
 
 window.document.addEventListener("keydown", function(e) {
-  var c = String.fromCharCode(e.keyCode).toLowerCase(), SCROLL_STEP = 35;
+  var c = String.fromCharCode(e.keyCode).toLowerCase();
   if(e.shiftKey) c = c.toUpperCase();
   if (e.keyCode > 32) {
     if (parseInt(c, 10) == c) {
@@ -108,6 +108,7 @@ window.document.addEventListener("keydown", function(e) {
 
 t.keyCommand = function(c, e) {
   var reset_combo = true;
+  var SCROLL_STEP = 35;
 
   switch(c) {
     case 'gg':
