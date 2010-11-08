@@ -107,6 +107,8 @@ window.document.addEventListener("keydown", function(e) {
 });
 
 t.keyCommand = function(c, e) {
+  
+  
   var reset_combo = true;
   var SCROLL_STEP = 35;
 
@@ -184,6 +186,11 @@ t.keyCommand = function(c, e) {
 t.inputCommand = function(command) {
 	if (command == '') return;
 
+  if (command.charAt(0) == "%") {
+    t.percentCommand(command);
+    return;
+  }
+
 	param = command.split(" ");
 
 	switch (param[0]) {
@@ -233,6 +240,22 @@ t.inputCommand = function(command) {
       break;
       
 	}
+}
+
+t.percentCommand = function(command) {
+	param = command.split("/");
+  
+  switch (param[0]) {
+    case "%s":
+      if (t.lastActiveElement == undefined) break;
+      if (param.length == 3 || param.length == 4) {
+        var mod = "";
+        if (param.length == 4) mod = param[3];
+        var regex = new RegExp(param[1], mod);
+        t.lastActiveElement.value = t.lastActiveElement.value.replace(regex, param[2]);
+      }
+      break;
+  }
 }
 
 function getAnswer(theMessageEvent) {
