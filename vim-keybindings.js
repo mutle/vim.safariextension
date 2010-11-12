@@ -24,6 +24,8 @@ window.document.addEventListener("keydown", function(e) {
 			  document.getElementById('vimOverlayTextinput').value = '';
 		  } else {
 			  t.lastActiveElement = window.document.activeElement;
+        combokey = '';
+        multiplier = 0;
 		  }
 		  window.document.activeElement.blur();
 		  break;
