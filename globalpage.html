@@ -10,7 +10,12 @@
 
 	function openTab(event) {
 		var url = event.message;
-		safari.application.activeBrowserWindow.openTab().url = url;
+    var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+    if (url != "") {
+      safari.application.activeBrowserWindow.openTab('foreground', ++index).url = url;
+    } else {
+      safari.application.activeBrowserWindow.openTab('foreground', ++index);
+    }
 	}
 
 	function respondToMessage(theMessageEvent) {
@@ -20,6 +25,7 @@
 				break;
 
 			case "openTab":
+      case "newTab":
 				openTab(theMessageEvent);
 				break;
 
@@ -50,6 +56,7 @@
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
         break;
+
 		}
 	}
  

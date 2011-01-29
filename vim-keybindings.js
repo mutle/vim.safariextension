@@ -13,7 +13,12 @@ window.document.addEventListener("keydown", function(e) {
       combokey += c;
     }
     clearTimeout(timer);
-    timer = window.setTimeout(function() { combokey = ''; multiplier = 0; }, 500);
+    timer = window.setTimeout(function() { combokey = ''; multiplier = 0; }, 5000);
+  }
+
+  t.resetCombo = function() {
+    combokey = '';
+    multiplier = 0;
   }
 
   if(window.document.activeElement !== window.document.body) {
@@ -24,9 +29,9 @@ window.document.addEventListener("keydown", function(e) {
 			  document.getElementById('vimOverlayTextinput').value = '';
 		  } else {
 			  t.lastActiveElement = window.document.activeElement;
-        combokey = '';
-        multiplier = 0;
 		  }
+      combokey = '';
+      multiplier = 0;
 		  window.document.activeElement.blur();
 		  break;
 		case 8:
@@ -44,8 +49,15 @@ window.document.addEventListener("keydown", function(e) {
 				document.getElementById('vimOverlay').style.display = "none";
 			}
 			break;
-	}
+    }
     return;
+  } else {
+
+    switch (e.keyCode) {
+		case 27:
+      t.resetCombo();
+      break;
+    }
   }
 
   t.scroll = function(x, y) {
@@ -68,6 +80,9 @@ window.document.addEventListener("keydown", function(e) {
   };
 
   t.functionkeys = function(keys) {
+    if (keys.none == '1' && (e.altKey || e.metaKey || e.ctrlKey || e.altGraphKey || e.shiftKey)) {
+      return false;
+    }
 	  if ((keys.alt != '1' && e.altKey) || (keys.alt == '1' && !e.altKey)) {
 		  return false;
 	  }
@@ -84,11 +99,6 @@ window.document.addEventListener("keydown", function(e) {
 		  return false;
 	  }
 	  return true;
-  }
-
-  t.resetCombo = function() {
-    combokey = '';
-    multiplier = 0;
   }
 
   switch (e.keyIdentifier) {
@@ -110,25 +120,34 @@ window.document.addEventListener("keydown", function(e) {
 
 t.keyCommand = function(c, e) {
   
-  
   var reset_combo = true;
   var SCROLL_STEP = 35;
 
   switch(c) {
     case 'gg':
-      t.scrollTo(0, 0);
+      if (t.functionkeys({'none': '1'})) {
+        t.scrollTo(0,0);
+      }
     break;
     case 'h':
-      t.scroll(-SCROLL_STEP, 0);
+      if (t.functionkeys({'none': '1'})) {
+        t.scroll(-SCROLL_STEP, 0);
+      }
     break;
     case 'j':
-      t.scroll(0, SCROLL_STEP);
+      if (t.functionkeys({'none': '1'})) {
+        t.scroll(0, SCROLL_STEP);
+      }
     break;
     case 'k':
-      t.scroll(0, -SCROLL_STEP);
+      if (t.functionkeys({'none': '1'})) {
+        t.scroll(0, -SCROLL_STEP);
+      }
     break;
     case 'l':
-      t.scroll(SCROLL_STEP, 0);
+      if (t.functionkeys({'none': '1'})) {
+        t.scroll(SCROLL_STEP, 0);
+      }
     break;
     case 'd':
       if (t.functionkeys({'ctrl': '1'})) {
@@ -138,7 +157,7 @@ t.keyCommand = function(c, e) {
       }
     break;
     case 'dd':
-      if (t.lastActiveElement != undefined) {
+      if (t.functionkeys({'none': '1'}) && t.lastActiveElement != undefined) {
         t.lastActiveElement.value = '';
       }
     break;
@@ -159,7 +178,9 @@ t.keyCommand = function(c, e) {
       }
     break;
     case 'G':
-      t.scrollTo(0, t.screenHeight());
+      if (t.functionkeys({'shift': '1'})) {
+        t.scrollTo(0, t.screenHeight());
+      }
     break;
     case 'i':
       if (t.lastActiveElement != undefined) {
@@ -168,10 +189,14 @@ t.keyCommand = function(c, e) {
       }
       break;
     case 'gT':
-      safari.self.tab.dispatchMessage("prevTab","");
+      if (t.functionkeys({'none': '1'})) {
+        safari.self.tab.dispatchMessage("prevTab","");
+      }
       break;
     case 'gt':
-      safari.self.tab.dispatchMessage("nextTab",multiplier);
+      if (t.functionkeys({'none': '1'})) {
+        safari.self.tab.dispatchMessage("nextTab",multiplier);
+      }
       break;
 
     default:
@@ -240,6 +265,9 @@ t.inputCommand = function(command) {
     case 'tablast':
       safari.self.tab.dispatchMessage("nextTab","last");
       break;
+    
+    case 'tabnew':
+      safari.self.tab.dispatchMessage("newTab","");
       
 	}
 }
@@ -262,6 +290,9 @@ t.percentCommand = function(command) {
 
 function getAnswer(theMessageEvent) {
 	switch (theMessageEvent.name) {
+    case "resetcombo":
+      t.resetCombo();
+    break;
 	}
 }
 safari.self.addEventListener("message", getAnswer, false);
