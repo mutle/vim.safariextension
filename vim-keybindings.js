@@ -173,7 +173,7 @@ t.keyCommand = function(c, e) {
       }
     break;
     case 'b':
-    if(t.functionkeys({'ctrl': '1'})) {
+      if(t.functionkeys({'ctrl': '1'})) {
         t.scroll(0, -t.fullWindowHeight());
       }
     break;
@@ -189,7 +189,7 @@ t.keyCommand = function(c, e) {
       }
       break;
     case 'gT':
-      if (t.functionkeys({'none': '1'})) {
+      if (t.functionkeys({'shift': '1'})) {
         safari.self.tab.dispatchMessage("prevTab","");
       }
       break;
