@@ -7,7 +7,7 @@ Currently supported keys:
 * h, j, k, l
 * ^D, ^U, ^F, ^B
 * esc, i, dd
-* gt, gT
+* gt, gT, <number>gt
 
 Currently supported commands:
 
@@ -17,7 +17,15 @@ Currently supported commands:
 * :%s/@search/@replace
 
 @url should be a valid url. http:// will be added if it is not provided.
-@search and @replace needs to be regular expression. Remember though that this is javascript NOT the vim engine.
+@search and @replace needs to be regular expression. Modifiers are supported. Remember though that this is javascript NOT the vim engine.
+
+In the preferences for the extension, it is possible to give a list of sites, where the extension should not be loaded. Separate sites by , (comma). Spaces are allowed.
+
+Known issues
+------------
+* Some pages takes over the keyboard just as this extension does. That means that on some pages the overlay wont show up and wont recieve key combos.
+* In some pages the overlay is misplaced due to styles in the page.
+* Some pages makes the gt and gT combos jump past it. This will be addressed before first major release.
 
 Contributors
 ============

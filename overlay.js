@@ -6,8 +6,11 @@ if (window.top === window) {
 	overlay.style.position = "fixed";
 	overlay.style.width = "400px";
 	overlay.style.bottom = "0";
+	overlay.style.left = "0";
 	overlay.style.padding = "1px 0";
+	overlay.style.margin = "0";
 	overlay.style.border = "1px solid #97BAEB";
+	overlay.style.borderRadius = "5px";
 	overlay.style.display = "none";
 	overlay.setAttribute('id', 'vimOverlay');
 	overlay.style.opacity = ".9";
@@ -20,7 +23,6 @@ if (window.top === window) {
 	overlayTextinput.style.color = "black";
 	overlayTextinput.style.opacity = ".9";
 	overlayTextinput.setAttribute('id', 'vimOverlayTextinput');
-	//overlayTextinput.setAttribute('onkeypress', '');
 
 	document.body.insertBefore(overlay, document.body.firstChild);
 	overlay.appendChild(overlayTextinput);

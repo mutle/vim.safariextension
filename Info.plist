@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Author</key>
-	<string>Mutwin Kraus</string>
+	<string>Mutwin Kraus, Jannik Nielsen</string>
 	<key>CFBundleDisplayName</key>
 	<string>vim</string>
 	<key>CFBundleIdentifier</key>
@@ -11,11 +11,13 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.4</string>
+	<string>0.6</string>
 	<key>CFBundleVersion</key>
 	<string>2</string>
 	<key>Chrome</key>
 	<dict>
+		<key>Database Quota</key>
+		<real>1048576</real>
 		<key>Global Page</key>
 		<string>globalpage.html</string>
 	</dict>

@@ -2,8 +2,9 @@ var combokey = '';
 var multiplier = 0;
 var t = {};
 var timer;
+var loaded = false;
 
-window.document.addEventListener("keydown", function(e) {
+var handler = function(e) {
   var c = String.fromCharCode(e.keyCode).toLowerCase();
   if(e.shiftKey) c = c.toUpperCase();
   if (e.keyCode > 32) {
@@ -116,7 +117,7 @@ window.document.addEventListener("keydown", function(e) {
   }
 
   t.keyCommand(combokey, e);
-});
+}
 
 t.keyCommand = function(c, e) {
   
@@ -288,13 +289,30 @@ t.percentCommand = function(command) {
   }
 }
 
+t.disable = function() {
+  window.document.removeEventListener("keydown", handler, false);
+}
+
 function getAnswer(theMessageEvent) {
 	switch (theMessageEvent.name) {
     case "resetcombo":
       t.resetCombo();
     break;
+
+    case "disable":
+      if (loaded) {
+        t.disable();
+      }
+    break;
+    
+    case "load":
+      if (!loaded) {
+        loaded = true;
+        window.document.addEventListener("keydown", handler);
+      }
+    break;
 	}
 }
 safari.self.addEventListener("message", getAnswer, false);
 
-
+safari.self.tab.dispatchMessage("disabledSites","");

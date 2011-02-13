@@ -4,6 +4,40 @@
    <title>global page</title>
    <script type="text/javascript">
  
+  var disabledSites = safari.extension.settings.disabledsites;
+  
+  String.prototype.trim = function () {
+      return this.replace(/^\s*/, "").replace(/\s*$/, "");
+  }
+  
+  function disabledSitesHandler() {
+    console.log(disabledSites);
+    if (disabledSites != undefined) {
+      disabledSitesArray = disabledSites.split(",");
+
+      for (var i=0; i < disabledSitesArray.length; i++) {
+        var ds = disabledSitesArray[i].trim();
+        currentSite = safari.application.activeBrowserWindow.activeTab.url;
+        if (ds.match(/([^\/.]+\.[^\/.]+(?=$|\/))/)[0] == currentSite.match(/([^\/.]+\.[^\/.]+(?=$|\/))/)[0]) {
+          safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("disable",true);
+          return;
+        }
+      }
+      safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("load",true);
+    } else {
+      safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("load",true);
+    }
+  }
+
+  function disabledSitesChanged(event) {
+    if (event.key == "disabledsites") {
+      disabledSites=event.newValue;
+      disabledSitesHandler();
+    }
+  }
+   
+  safari.extension.settings.addEventListener("change", disabledSitesChanged, false);
+
 	function closeWindow() {
 		safari.application.activeBrowserWindow.activeTab.close();
 	}
@@ -57,6 +91,9 @@
         safari.application.activeBrowserWindow.tabs[index].activate();
         break;
 
+      case "disabledSites":
+        disabledSitesHandler();
+        break;
 		}
 	}
  
