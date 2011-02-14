@@ -10,7 +10,8 @@ if (window.top === window) {
 	overlay.style.padding = "1px 0";
 	overlay.style.margin = "0";
 	overlay.style.border = "1px solid #97BAEB";
-	overlay.style.borderRadius = "5px";
+	overlay.style.borderTopRightRadius = "5px";
+	overlay.style.borderBottomRightRadius = "5px";
 	overlay.style.display = "none";
 	overlay.setAttribute('id', 'vimOverlay');
 	overlay.style.opacity = ".9";
