@@ -39,9 +39,13 @@
    
   safari.extension.settings.addEventListener("change", disabledSitesChanged, false);
 
-	function closeWindow() {
+	function closeTab() {
 		safari.application.activeBrowserWindow.activeTab.close();
 	}
+
+  function closeWindow() {
+    safari.application.activeBrowserWindow.close();
+  }
 
 	function openTab(event) {
 		var url = event.message;
@@ -51,18 +55,23 @@
     } else {
       safari.application.activeBrowserWindow.openTab('foreground', ++index);
     }
+    safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
 	}
 
 	function respondToMessage(theMessageEvent) {
 		switch (theMessageEvent.name) {
-			case "closeWindow":
-				closeWindow();
-				break;
+			case "closeTab":
+				closeTab();
+			break;
+
+      case "closeWindow":
+        closeWindow();
+      break;
 
 			case "openTab":
       case "newTab":
 				openTab(theMessageEvent);
-				break;
+      break;
 
       case "prevTab":
         var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
@@ -72,7 +81,7 @@
           index--;
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
-        break;
+      break;
 
       case "nextTab":
         var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
@@ -90,11 +99,11 @@
           }
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
-        break;
+      break;
 
       case "disabledSites":
         disabledSitesHandler();
-        break;
+      break;
 		}
 	}
  

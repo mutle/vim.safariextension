@@ -107,13 +107,13 @@ var handler = function(e) {
 		  document.getElementById('vimOverlay').style.display = "block";
 		  document.getElementById('vimOverlayTextinput').focus();
 		  e.preventDefault();
-		  break;
+		break;
 	  case "U+0008":
 		  if (document.getElementById('vimOverlay').style.display == "block" && document.getElementById('vimOverlayTextinput').value == '') {
 			  document.getElementById('vimOverlayTextinput').blur();
 			  document.getElementById('vimOverlay').style.display = "none";
 		  }
-		  break;
+		break;
   }
 
   t.keyCommand(combokey, e);
@@ -247,28 +247,33 @@ t.inputCommand = function(command) {
 		break;
 		
     case 'q':
-			safari.self.tab.dispatchMessage("closeWindow");
-			break;
+			safari.self.tab.dispatchMessage("closeTab");
+		break;
+
+    case 'q!':
+      safari.self.tab.dispatchMessage("closeWindow");
+    break;
     
     case 'tabn':
       safari.self.tab.dispatchMessage("nextTab",0);
-      break;
+    break;
 
     case 'tabp':
       safari.self.tab.dispatchMessage("prevTab","");
-      break;
+    break;
 
     case 'tabfirst':
     case 'tabfir':
       safari.self.tab.dispatchMessage("nextTab",1);
-      break;
+    break;
 
     case 'tablast':
       safari.self.tab.dispatchMessage("nextTab","last");
-      break;
+    break;
     
     case 'tabnew':
       safari.self.tab.dispatchMessage("newTab","");
+    break;
       
 	}
 }
@@ -285,7 +290,7 @@ t.percentCommand = function(command) {
         var regex = new RegExp(param[1], mod);
         t.lastActiveElement.value = t.lastActiveElement.value.replace(regex, param[2]);
       }
-      break;
+    break;
   }
 }
 
