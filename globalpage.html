@@ -11,14 +11,15 @@
   }
   
   function disabledSitesHandler() {
-    console.log(disabledSites);
     if (disabledSites != undefined) {
       disabledSitesArray = disabledSites.split(",");
 
       for (var i=0; i < disabledSitesArray.length; i++) {
         var ds = disabledSitesArray[i].trim();
         currentSite = safari.application.activeBrowserWindow.activeTab.url;
-        if (ds.match(/([^\/.]+\.[^\/.]+(?=$|\/))/)[0] == currentSite.match(/([^\/.]+\.[^\/.]+(?=$|\/))/)[0]) {
+        dsm = ds.match(/([^\/.]+\.[^\/.]+(?=$|\/))/);
+        csm = currentSite.match(/([^\/.]+\.[^\/.]+(?=$|\/))/);
+        if (dsm != null && csm != null && dsm[0] == csm[0]) {
           safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("disable",true);
           return;
         }
