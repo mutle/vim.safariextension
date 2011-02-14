@@ -24,7 +24,6 @@ In the preferences for the extension, it is possible to give a list of sites, wh
 Known issues
 ------------
 * Some pages takes over the keyboard just as this extension does. That means that on some pages the overlay wont show up and wont recieve key combos.
-* In some pages the overlay is misplaced due to styles in the page.
 * Some pages makes the gt and gT combos jump past it. This will be addressed before first major release.
 
 Contributors
