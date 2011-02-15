@@ -5,6 +5,7 @@
    <script type="text/javascript">
  
   var disabledSites = safari.extension.settings.disabledsites;
+  var tabActive = [undefined, undefined];
   
   String.prototype.trim = function () {
       return this.replace(/^\s*/, "").replace(/\s*$/, "");
@@ -58,6 +59,11 @@
     safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
 	}
 
+  function changeTabActive() {
+    tabActive[0] = tabActive[1];
+    tabActive[1] = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+  }
+
 	function respondToMessage(theMessageEvent) {
 		switch (theMessageEvent.name) {
 			case "closeTab":
@@ -71,6 +77,8 @@
 			case "openTab":
       case "newTab":
 				openTab(theMessageEvent);
+        changeTabActive();
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
       break;
 
       case "prevTab":
@@ -81,6 +89,8 @@
           index--;
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
+        changeTabActive();
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
       break;
 
       case "nextTab":
@@ -99,7 +109,16 @@
           }
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
+        changeTabActive();
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
       break;
+
+      case "backTab":
+        if (tabActive[0] != undefined && safari.application.activeBrowserWindow.tabs[tabActive[0]]) {
+          safari.application.activeBrowserWindow.tabs[tabActive[0]].activate();
+          changeTabActive();
+        }
+      break; 
 
       case "disabledSites":
         disabledSitesHandler();

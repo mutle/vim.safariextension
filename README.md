@@ -8,10 +8,11 @@ Currently supported keys:
 * ^D, ^U, ^F, ^B
 * esc, i, dd
 * gt, gT, <number>gt
+* ''
 
 Currently supported commands:
 
-* :q, :tabnew
+* :q, :q!, :tabnew
 * :tabn, :tabp, :tabfir, :tabfirst, :tablast
 * :e @url, :edit @url, :tabe @url, :tabedit @url 
 * :%s/@search/@replace

@@ -7,7 +7,7 @@ var loaded = false;
 var handler = function(e) {
   var c = String.fromCharCode(e.keyCode).toLowerCase();
   if(e.shiftKey) c = c.toUpperCase();
-  if (e.keyCode > 32) {
+  if (e.keyCode > 32 && e.keyCode < 91) {
     if (parseInt(c, 10) == c) {
       multiplier = (multiplier * 10) + c;
     } else {
@@ -15,11 +15,6 @@ var handler = function(e) {
     }
     clearTimeout(timer);
     timer = window.setTimeout(function() { combokey = ''; multiplier = 0; }, 5000);
-  }
-
-  t.resetCombo = function() {
-    combokey = '';
-    multiplier = 0;
   }
 
   if(window.document.activeElement !== window.document.body) {
@@ -114,6 +109,9 @@ var handler = function(e) {
 			  document.getElementById('vimOverlay').style.display = "none";
 		  }
 		break;
+    case "U+0027":
+      combokey += "'";
+    break;
   }
 
   t.keyCommand(combokey, e);
@@ -167,7 +165,6 @@ t.keyCommand = function(c, e) {
         t.scroll(0, t.fullWindowHeight());
       }
     break;
-    
     case 'u':
       if(t.functionkeys({'ctrl': '1'})) {
         t.scroll(0, -t.halfWindowHeight());
@@ -188,17 +185,22 @@ t.keyCommand = function(c, e) {
         t.lastActiveElement.focus();
         e.preventDefault();
       }
-      break;
+    break;
     case 'gT':
       if (t.functionkeys({'shift': '1'})) {
         safari.self.tab.dispatchMessage("prevTab","");
       }
-      break;
+    break;
     case 'gt':
       if (t.functionkeys({'none': '1'})) {
         safari.self.tab.dispatchMessage("nextTab",multiplier);
       }
-      break;
+    break;
+    case '\'\'':
+      if (t.functionkeys({'none': '1'})) {
+        safari.self.tab.dispatchMessage("backTab", "");
+      }
+    break;
 
     default:
       reset_combo = false;
@@ -292,6 +294,11 @@ t.percentCommand = function(command) {
       }
     break;
   }
+}
+
+t.resetCombo = function() {
+  combokey = '';
+  multiplier = 0;
 }
 
 t.disable = function() {
