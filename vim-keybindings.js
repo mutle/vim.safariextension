@@ -252,7 +252,7 @@ t.inputCommand = function(command) {
 			safari.self.tab.dispatchMessage("closeTab");
 		break;
 
-    case 'q!':
+    case 'qa':
       safari.self.tab.dispatchMessage("closeWindow");
     break;
     
