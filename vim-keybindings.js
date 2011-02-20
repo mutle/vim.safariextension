@@ -207,7 +207,7 @@ t.keyCommand = function(c, e) {
     break;
   }
 
-  if (reset_combo) {
+  if (reset_combo || c.length > 4) {
     t.resetCombo();
   }
 

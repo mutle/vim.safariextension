@@ -6,7 +6,21 @@
  
   var disabledSites = safari.extension.settings.disabledsites;
   var tabActive = [undefined, undefined];
+  var updating = false;
+
+  setInterval("update()", 100);
   
+  function update() {
+    if (!updating && parseInt(tabActive[1]) != parseInt(safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab ))) {
+      updateing = true;
+      changeTabActive();
+      safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("reset",true);
+      console.log("Tab changed from "+tabActive[0]+" to "+tabActive[1]);
+      updating = false;
+    }
+  }
+
+
   String.prototype.trim = function () {
       return this.replace(/^\s*/, "").replace(/\s*$/, "");
   }
