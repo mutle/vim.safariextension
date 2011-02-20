@@ -15,7 +15,6 @@
       updateing = true;
       changeTabActive();
       safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("reset",true);
-      console.log("Tab changed from "+tabActive[0]+" to "+tabActive[1]);
       updating = false;
     }
   }
