@@ -5,20 +5,21 @@
    <script type="text/javascript">
  
   var disabledSites = safari.extension.settings.disabledsites;
-  var tabActive = [undefined, undefined];
+
+/*  var tabActive = [];
   var updating = false;
 
   setInterval("update()", 100);
   
   function update() {
-    if (!updating && parseInt(tabActive[1]) != parseInt(safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab ))) {
+    if (!updating && tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)] != undefined && tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)][0] != undefined && parseInt(tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)][0]) != parseInt(safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab ))) {
       updateing = true;
       changeTabActive();
       safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("reset",true);
       updating = false;
     }
   }
-
+*/
 
   String.prototype.trim = function () {
       return this.replace(/^\s*/, "").replace(/\s*$/, "");
@@ -72,10 +73,14 @@
     safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
 	}
 
-  function changeTabActive() {
-    tabActive[0] = tabActive[1];
-    tabActive[1] = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+/*  function changeTabActive() {
+   console.log(safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )); 
+    if (tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )] != undefined && tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1] != undefined) {
+      tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][0] = tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1];
+    }
+    tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1] = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
   }
+*/
 
 	function respondToMessage(theMessageEvent) {
 		switch (theMessageEvent.name) {
@@ -90,7 +95,7 @@
 			case "openTab":
       case "newTab":
 				openTab(theMessageEvent);
-        changeTabActive();
+//        changeTabActive();
         safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
       break;
 
@@ -102,7 +107,7 @@
           index--;
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
-        changeTabActive();
+//        changeTabActive();
         safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
       break;
 
@@ -122,7 +127,7 @@
           }
         }
         safari.application.activeBrowserWindow.tabs[index].activate();
-        changeTabActive();
+//        changeTabActive();
         safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
       break;
 

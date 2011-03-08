@@ -196,11 +196,11 @@ t.keyCommand = function(c, e) {
         safari.self.tab.dispatchMessage("nextTab",multiplier);
       }
     break;
-    case '\'\'':
+    /*case '\'\'':
       if (t.functionkeys({'none': '1'})) {
         safari.self.tab.dispatchMessage("backTab", "");
       }
-    break;
+    break;*/
 
     default:
       reset_combo = false;
