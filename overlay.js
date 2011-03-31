@@ -25,6 +25,7 @@ if (window.top === window) {
 	overlayTextinput.style.color = "black";
 	overlayTextinput.style.margin = "0";
 	overlayTextinput.style.opacity = ".9";
+  overlayTextinput.style.clear = "none";
 	overlayTextinput.setAttribute('id', 'vimOverlayTextinput');
 
 	document.body.insertBefore(overlay, document.body.firstChild);
