@@ -31,7 +31,7 @@ var handler = function(e) {
 		  window.document.activeElement.blur();
 		  break;
 		case 8:
-			if (window.document.activeElement.id == "vimOverlayTextinput" && window.document.activeElement.value == '') {
+			if (window.document.activeElement.id == "vimOverlayTextinput" && window.document.activeElement.value === '') {
 				window.document.activeElement.blur();
 				document.getElementById('vimOverlay').style.display = "none";
 				e.preventDefault();
@@ -95,7 +95,7 @@ var handler = function(e) {
 		  return false;
 	  }
 	  return true;
-  }
+  };
 
   switch (e.keyIdentifier) {
 	  case "U+003A":
@@ -104,7 +104,7 @@ var handler = function(e) {
 		  e.preventDefault();
 		break;
 	  case "U+0008":
-		  if (document.getElementById('vimOverlay').style.display == "block" && document.getElementById('vimOverlayTextinput').value == '') {
+		  if (document.getElementById('vimOverlay').style.display == "block" && document.getElementById('vimOverlayTextinput').value === '') {
 			  document.getElementById('vimOverlayTextinput').blur();
 			  document.getElementById('vimOverlay').style.display = "none";
 		  }
@@ -115,7 +115,7 @@ var handler = function(e) {
   }
 
   t.keyCommand(combokey, e);
-}
+};
 
 t.keyCommand = function(c, e) {
   
@@ -156,7 +156,7 @@ t.keyCommand = function(c, e) {
       }
     break;
     case 'dd':
-      if (t.functionkeys({'none': '1'}) && t.lastActiveElement != undefined) {
+      if (t.functionkeys({'none': '1'}) && t.lastActiveElement !== undefined) {
         t.lastActiveElement.value = '';
       }
     break;
@@ -181,7 +181,7 @@ t.keyCommand = function(c, e) {
       }
     break;
     case 'i':
-      if (t.lastActiveElement != undefined) {
+      if (t.lastActiveElement !== undefined) {
         t.lastActiveElement.focus();
         e.preventDefault();
       }
@@ -211,10 +211,10 @@ t.keyCommand = function(c, e) {
     t.resetCombo();
   }
 
-}  
+};  
 
 t.inputCommand = function(command) {
-	if (command == '') return;
+	if (command === '') return;
 
   if (command.charAt(0) == "%") {
     t.percentCommand(command);
@@ -228,7 +228,7 @@ t.inputCommand = function(command) {
 		case 'tabedit':
 		case 'e':
     case 'edit':
-			if (param[1] == "" || param[1] == undefined) {
+			if (param[1] === "" || param[1] === undefined) {
 				if (param[0] == 'e' || param[0] == 'edit') {
 					alert('Usage: command "edit" or "e" for short, opens the url specified as first parameter in the current tab');
 				} else {
@@ -236,7 +236,7 @@ t.inputCommand = function(command) {
 				}
 
 			} else {
-				var url = param[1]
+				var url = param[1];
 				if (url.substr(0,5) != "http:" && url.substr(0,6) != "https:") {
 					url = "http://" + url;
 				}
@@ -278,14 +278,14 @@ t.inputCommand = function(command) {
     break;
       
 	}
-}
+};
 
 t.percentCommand = function(command) {
 	param = command.split("/");
   
   switch (param[0]) {
     case "%s":
-      if (t.lastActiveElement == undefined) break;
+      if (t.lastActiveElement === undefined) break;
       if (param.length == 3 || param.length == 4) {
         var mod = "";
         if (param.length == 4) mod = param[3];
@@ -294,16 +294,16 @@ t.percentCommand = function(command) {
       }
     break;
   }
-}
+};
 
 t.resetCombo = function() {
   combokey = '';
   multiplier = 0;
-}
+};
 
 t.disable = function() {
   window.document.removeEventListener("keydown", handler, false);
-}
+};
 
 function getAnswer(theMessageEvent) {
 	switch (theMessageEvent.name) {
