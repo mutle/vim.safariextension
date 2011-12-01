@@ -15,7 +15,7 @@ if (window.top === window) {
 	overlay.style.display = "none";
 	overlay.setAttribute('id', 'vimOverlay');
 	overlay.style.opacity = ".9";
-  overlay.style.zIndex = "2147483648";
+	overlay.style.zIndex = "2147483648";
 
 	var overlayTextinput = document.createElement("input");
 	overlayTextinput.style.border = "0";
@@ -25,11 +25,9 @@ if (window.top === window) {
 	overlayTextinput.style.color = "black";
 	overlayTextinput.style.margin = "0";
 	overlayTextinput.style.opacity = ".9";
-  overlayTextinput.style.clear = "none";
+	overlayTextinput.style.clear = "none";
 	overlayTextinput.setAttribute('id', 'vimOverlayTextinput');
 
 	document.body.insertBefore(overlay, document.body.firstChild);
 	overlay.appendChild(overlayTextinput);
-
-	
 }
