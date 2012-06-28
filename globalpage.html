@@ -12,137 +12,137 @@ var updating = false;
 setInterval("update()", 100);
 
 function update() {
-	if (!updating && tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)] != undefined && tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)][0] != undefined && parseInt(tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)][0]) != parseInt(safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab ))) {
-		updateing = true;
-		changeTabActive();
-		safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("reset",true);
-		updating = false;
-	}
+    if (!updating && tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)] != undefined && tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)][0] != undefined && parseInt(tabActive[safari.application.browserWindows.indexOf(safari.application.activeBrowserWindow)][0]) != parseInt(safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab ))) {
+        updateing = true;
+        changeTabActive();
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("reset",true);
+        updating = false;
+    }
 }
 */
 
 String.prototype.trim = function () {
-		return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        return this.replace(/^\s*/, "").replace(/\s*$/, "");
 }
 
 function disabledSitesHandler() {
-	if (disabledSites != undefined) {
-		disabledSitesArray = disabledSites.split(",");
+    if (disabledSites != undefined) {
+        disabledSitesArray = disabledSites.split(",");
 
-		for (var i=0; i < disabledSitesArray.length; i++) {
-			var ds = disabledSitesArray[i].trim();
-			currentSite = safari.application.activeBrowserWindow.activeTab.url;
-			dsm = ds.match(/([^\/.]+\.[^\/.]+(?=$|\/))/);
-			csm = currentSite.match(/([^\/.]+\.[^\/.]+(?=$|\/))/);
-			if (dsm != null && csm != null && dsm[0] == csm[0]) {
-				safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("disable",true);
-				return;
-			}
-		}
-		safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("load",true);
-	} else {
-		safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("load",true);
-	}
+        for (var i=0; i < disabledSitesArray.length; i++) {
+            var ds = disabledSitesArray[i].trim();
+            currentSite = safari.application.activeBrowserWindow.activeTab.url;
+            dsm = ds.match(/([^\/.]+\.[^\/.]+(?=$|\/))/);
+            csm = currentSite.match(/([^\/.]+\.[^\/.]+(?=$|\/))/);
+            if (dsm != null && csm != null && dsm[0] == csm[0]) {
+                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("disable",true);
+                return;
+            }
+        }
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("load",true);
+    } else {
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("load",true);
+    }
 }
 
 function disabledSitesChanged(event) {
-	if (event.key == "disabledsites") {
-		disabledSites=event.newValue;
-		disabledSitesHandler();
-	}
+    if (event.key == "disabledsites") {
+        disabledSites=event.newValue;
+        disabledSitesHandler();
+    }
 }
 
 safari.extension.settings.addEventListener("change", disabledSitesChanged, false);
 
 function closeTab() {
-	safari.application.activeBrowserWindow.activeTab.close();
+    safari.application.activeBrowserWindow.activeTab.close();
 }
 
 function closeWindow() {
-	safari.application.activeBrowserWindow.close();
+    safari.application.activeBrowserWindow.close();
 }
 
 function openTab(event) {
-	var url = event.message;
-	var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
-	if (url != "") {
-		safari.application.activeBrowserWindow.openTab('foreground', ++index).url = url;
-	} else {
-		safari.application.activeBrowserWindow.openTab('foreground', ++index);
-	}
-	safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
+    var url = event.message;
+    var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+    if (url != "") {
+        safari.application.activeBrowserWindow.openTab('foreground', ++index).url = url;
+    } else {
+        safari.application.activeBrowserWindow.openTab('foreground', ++index);
+    }
+    safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
 }
 
 /*
 function changeTabActive() {
  console.log(safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow ));
-	if (tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )] != undefined && tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1] != undefined) {
-		tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][0] = tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1];
-	}
-	tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1] = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+    if (tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )] != undefined && tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1] != undefined) {
+        tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][0] = tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1];
+    }
+    tabActive[safari.application.browserWindows.indexOf( safari.application.activeBrowserWindow )][1] = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
 }
 */
 
 function respondToMessage(theMessageEvent) {
-	switch (theMessageEvent.name) {
-		case "closeTab":
-			closeTab();
-		break;
+    switch (theMessageEvent.name) {
+        case "closeTab":
+            closeTab();
+        break;
 
-		case "closeWindow":
-			closeWindow();
-		break;
+        case "closeWindow":
+            closeWindow();
+        break;
 
-		case "openTab":
-		case "newTab":
-			openTab(theMessageEvent);
-			// changeTabActive();
-			safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
-		break;
+        case "openTab":
+        case "newTab":
+            openTab(theMessageEvent);
+            // changeTabActive();
+            safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
+        break;
 
-		case "prevTab":
-			var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
-			if (index == 0) {
-				index = safari.application.activeBrowserWindow.tabs.length-1;
-			} else {
-				index--;
-			}
-			safari.application.activeBrowserWindow.tabs[index].activate();
-			// changeTabActive();
-			safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
-		break;
+        case "prevTab":
+            var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+            if (index == 0) {
+                index = safari.application.activeBrowserWindow.tabs.length-1;
+            } else {
+                index--;
+            }
+            safari.application.activeBrowserWindow.tabs[index].activate();
+            // changeTabActive();
+            safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
+        break;
 
-		case "nextTab":
-			var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
-			if (parseInt(theMessageEvent.message, 10) != 0) {
-				if (theMessageEvent.message == "last") {
-					index = parseInt(safari.application.activeBrowserWindow.tabs.length, 10)-1;
-				} else if (parseInt(theMessageEvent.message) < safari.application.activeBrowserWindow.tabs.length, 10) {
-					index = parseInt(theMessageEvent.message, 10)-1;
-				}
-			} else {
-				if (index == parseInt(safari.application.activeBrowserWindow.tabs.length, 10)-1) {
-					index = 0;
-				} else {
-					index++;
-				}
-			}
-			safari.application.activeBrowserWindow.tabs[index].activate();
-			// changeTabActive();
-			safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
-		break;
+        case "nextTab":
+            var index = safari.application.activeBrowserWindow.tabs.indexOf( safari.application.activeBrowserWindow.activeTab );
+            if (parseInt(theMessageEvent.message, 10) != 0) {
+                if (theMessageEvent.message == "last") {
+                    index = parseInt(safari.application.activeBrowserWindow.tabs.length, 10)-1;
+                } else if (parseInt(theMessageEvent.message) < safari.application.activeBrowserWindow.tabs.length, 10) {
+                    index = parseInt(theMessageEvent.message, 10)-1;
+                }
+            } else {
+                if (index == parseInt(safari.application.activeBrowserWindow.tabs.length, 10)-1) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+            }
+            safari.application.activeBrowserWindow.tabs[index].activate();
+            // changeTabActive();
+            safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resetcombo", true);
+        break;
 
-		case "backTab":
-			if (tabActive[0] != undefined && safari.application.activeBrowserWindow.tabs[tabActive[0]]) {
-				safari.application.activeBrowserWindow.tabs[tabActive[0]].activate();
-				changeTabActive();
-			}
-		break;
+        case "backTab":
+            if (tabActive[0] != undefined && safari.application.activeBrowserWindow.tabs[tabActive[0]]) {
+                safari.application.activeBrowserWindow.tabs[tabActive[0]].activate();
+                changeTabActive();
+            }
+        break;
 
-		case "disabledSites":
-			disabledSitesHandler();
-		break;
-	}
+        case "disabledSites":
+            disabledSitesHandler();
+        break;
+    }
 }
 
 safari.application.addEventListener("message",respondToMessage,false);

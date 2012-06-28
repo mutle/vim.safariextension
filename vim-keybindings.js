@@ -148,13 +148,13 @@ t.keyCommand = function(c, e) {
                 t.scroll(SCROLL_STEP, 0);
             }
         break;
-        case 'd':
-            if (t.functionkeys({'ctrl': '1'})) {
-                t.scroll(0, t.halfWindowHeight());
-            } else {
-                reset_combo = false;
-            }
-        break;
+        //case 'd':
+        //    if (t.functionkeys({'ctrl': '1'})) {
+        //        t.scroll(0, t.halfWindowHeight());
+        //    } else {
+        //        reset_combo = false;
+        //    }
+        //break;
         case 'dd':
             if (t.functionkeys({'none': '1'}) && t.lastActiveElement != undefined) {
                 t.lastActiveElement.value = '';
@@ -185,6 +185,12 @@ t.keyCommand = function(c, e) {
                 t.lastActiveElement.focus();
                 e.preventDefault();
             }
+        break;
+        case 'd':
+            safari.self.tab.dispatchMessage("closeTab");
+        break;
+        case 't':
+            safari.self.tab.dispatchMessage("openTab", "https://");
         break;
         case 'gT':
             if (t.functionkeys({'shift': '1'})) {
@@ -227,6 +233,7 @@ t.inputCommand = function(command) {
         case 'tabe':
         case 'tabedit':
         case 'e':
+        case 't':
         case 'edit':
             if (param[1] == "" || param[1] == undefined) {
                 if (param[0] == 'e' || param[0] == 'edit') {
