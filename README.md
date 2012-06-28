@@ -1,15 +1,16 @@
-Vim Keybindings for Safari
---------------------------
+# Vim Keybindings for Safari
 
-Currently supported keys:
+## Currently supported keys:
 
 * gg, G
 * h, j, k, l
 * ^D, ^U, ^F, ^B
 * esc, i, dd
 * gt, gT, <number>gt
+* t -- starts a new tab
+* d -- closes a tab
 
-Currently supported commands:
+## Currently supported commands:
 
 * :q, :q!, :tabnew
 * :tabn, :tabp, :tabfir, :tabfirst, :tablast
@@ -21,14 +22,15 @@ Currently supported commands:
 
 In the preferences for the extension, it is possible to give a list of sites, where the extension should not be loaded. Separate sites by , (comma). Spaces are allowed.
 
-Known issues
-------------
+## Known issues
+
 * Some pages takes over the keyboard just as this extension does. That means that on some pages the overlay wont show up and wont recieve key strokes.
 * Some pages makes the gt and gT combos jump past it. 
 
-Contributors
-============
+# AUTHORS
 
-Mutwin Kraus
-Jason Green
-Jannik Nielsen
+- Mutwin Kraus
+- Jason Green
+- Jannik Nielsen
+- Khaled Hussein <khaled.hussein@gmail.com>
+
