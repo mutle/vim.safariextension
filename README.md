@@ -23,7 +23,7 @@ In the preferences for the extension, it is possible to give a list of sites, wh
 
 Known issues
 ------------
-* Some pages takes over the keyboard just as this extension does. That means that on some pages the overlay wont show up and wont recieve key strokes.
+* Some pages takes over the keyboard just as this extension does. That means that on some pages the overlay wont show up and wont receive key strokes.
 * Some pages makes the gt and gT combos jump past it. 
 
 Contributors
